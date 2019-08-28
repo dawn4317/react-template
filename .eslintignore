@@ -5,3 +5,4 @@
 overrides.js
 compress.js
 build/**/*.js
+mock/**/*.js
