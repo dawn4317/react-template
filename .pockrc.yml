@@ -4,7 +4,7 @@ cors:
   origin: true
   methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS', 'HEAD']
   allowedHeaders: ['Authorization', 'Content-Type']
-port: 3000
+port: 8080
 proxy:
   prefix: /error
   upstream: https://hook.bearychat.com

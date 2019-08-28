@@ -1,30 +1,3 @@
-type RequestIdleCallbackHandle = any;
-type RequestIdleCallbackOptions = {
-	timeout: number;
-};
-type RequestIdleCallbackDeadline = {
-	readonly didTimeout: boolean;
-	timeRemaining: () => number;
-};
-
-declare global {
-	interface Window {
-		Sentry: {
-			captureException: (err: any) => string;
-		};
-		errorPool: Array<any>;
-		isSentryLoaded: boolean;
-		requestIdleCallback: (
-			callback: (deadline: RequestIdleCallbackDeadline) => void,
-			opts?: RequestIdleCallbackOptions
-		) => RequestIdleCallbackHandle;
-		cancelIdleCallback: (handle: RequestIdleCallbackHandle) => void;
-		mozRequestAnimationFrame: typeof requestAnimationFrame;
-		msRequestAnimationFrame: typeof requestAnimationFrame;
-		mozCancelAnimationFrame: typeof cancelAnimationFrame;
-	}
-}
-
 export function report(error: Error): void {
 	if (window.Sentry) {
 		window.Sentry.captureException(error);
@@ -61,7 +34,8 @@ export function parseJWT(jwt: string): JWT {
 
 export function once<T extends Function>(fn: T): T {
 	let called = false;
-	if (typeof fn !== 'function') {
+	// eslint-disable-next-line
+	if (!isFn(fn)) {
 		throw new TypeError('fn is not a function');
 	}
 	return (function(this: any, ...args: Array<any>) {
@@ -71,7 +45,9 @@ export function once<T extends Function>(fn: T): T {
 	} as unknown) as T;
 }
 
-export function scrollY(val?: number): number | void {
+export function scrollY(val: number): void;
+export function scrollY(): number;
+export function scrollY(val?: any): any {
 	const doc = document;
 	const root = doc.documentElement || doc.body.parentNode || doc.body;
 	if (val !== undefined) {
@@ -159,6 +135,15 @@ function _step(
 	setValue(pos);
 }
 
+interface AnimateOptions {
+	endPos: number;
+	duration: number;
+	setValue: (val: number) => void;
+	cb?: () => void;
+	startPos?: number;
+	easing?: keyof typeof _tween;
+}
+
 export function animate(
 	{
 		endPos,
@@ -168,14 +153,7 @@ export function animate(
 		cb = function() {},
 		startPos = 0,
 		easing = 'easeIn'
-	}: {
-		endPos: number;
-		duration: number;
-		setValue: (val: number) => void;
-		cb: () => void;
-		startPos: number;
-		easing: keyof typeof _tween;
-	} = {} as any
+	}: AnimateOptions = {} as any
 ): void {
 	function run(): void {
 		// eslint-disable-next-line
@@ -232,7 +210,7 @@ const selfCloseTags = [
 
 export function trimHtml(
 	html: string,
-	{ limit = 100, suffix = null } = {}
+	{ limit = 100, suffix = '' } = {}
 ): { html: string; more: boolean } {
 	const tagStack: Array<string> = [];
 	let currentTag = '',
@@ -292,16 +270,6 @@ export function getDate(timestamp: number): string {
 		month = date.getUTCMonth() + 1,
 		day = date.getUTCDate();
 	return `${year}/${month}/${day}`;
-}
-
-export function addTableWrapper(htmlStr: string, classStr: string): string {
-	return htmlStr.replace(/<\/?table.*?>/g, m => {
-		if (m === '</table>') {
-			return '</table></div>';
-		} else {
-			return `<div class="${classStr}">${m}`;
-		}
-	});
 }
 
 const _reqMap = Symbol('reqMap');

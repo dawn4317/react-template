@@ -15,7 +15,7 @@
     "eject": "react-scripts eject",
     "coverage": "echo todo",
     "report": "echo todo",
-    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 0"
   },
   "repository": {
     "type": "git",
@@ -76,7 +76,7 @@
     "kooky": "^0.1.4",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
-    "secan": "^0.1.8",
+    "secan": "^0.1.9",
     "tslib": "^1.10.0"
   },
   "config": {

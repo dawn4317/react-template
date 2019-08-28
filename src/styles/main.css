@@ -7,7 +7,7 @@ body {
 a {
 	text-decoration: none;
 	&:active, &:visited {
-		color: $bodyFontColor;
+		color: $textColor;
 	}
 }
 
@@ -16,7 +16,7 @@ a {
 }
 
 noscript {
-	color: $bodyFontColor;
+	color: $textColor;
 	display: block;
 	text-align: justify;
 	width: 80%;
@@ -25,7 +25,7 @@ noscript {
 	border-radius: 10px;/* skip-p2v */
 	padding: 14px;/* skip-p2v */
 	position: relative;
-	@include font(16);
+	font-size: 16px;
 	h3 {
 		width: 3em;
 		position: absolute;
