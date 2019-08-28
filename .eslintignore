@@ -1,0 +1,7 @@
+.eslintrc.js
+.prettierrc.js
+.lintstagedrc.js
+.oasrc.js
+overrides.js
+compress.js
+build/**/*.js
