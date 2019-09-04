@@ -42,6 +42,7 @@ module.exports = {
 		]
 	},
 	rules: {
+		'react/prop-types': 'off',
 		'no-debugger': 'off',
 		'linebreak-style': ['error', 'unix'],
 		indent: 'off',
